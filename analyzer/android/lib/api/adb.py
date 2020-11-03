@@ -108,8 +108,9 @@ def execute_sample(package,activity):
     """Execute the sample on the emulator via adb"""
     log.info("executing sample on emulator:adb shell am start -n " +package+"/"+activity)
     str=""
-    #proc = subprocess.Popen(["/system/bin/am","start","-n", package+"/"+activity], stdout=subprocess.PIPE, stderr=subprocess.PIPE)#adb shell am start -n $pkg/$act
-    str = os.popen("/system/bin/am start -n "+package+"/"+activity).read()
+    proc = subprocess.Popen("/system/bin/am start -n" + package+"/"+activity, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, executable='/system/bin/sh')#adb shell am start -n $pkg/$act
+    #str = os.popen("/system/bin/am start -n "+package+"/"+activity).read()
+    #this os.open() is no more supported(depricated) on python latest version. Instaed use subprocess.Popen() function.
     lines = str.split("\n")
     for line in lines:
         if("Error" in line):
